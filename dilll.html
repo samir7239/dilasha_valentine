@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dilasha 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Kalam', cursive;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 🖼️ BACKGROUND SLIDESHOW */
+.bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px) brightness(0.8);
+  transition: background-image 1.5s ease-in-out;
+  z-index: -1;
+}
+
+/* Dark overlay */
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 192, 203, 0.35);
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  padding-top: 50px;
+  color: #7a0019;
+}
+
+#typing {
+  margin: 20px;
+  font-size: 26px;
+  min-height: 80px;
+}
+
+/* Buttons area */
+.buttons {
+  position: relative;
+  height: 350px;
+}
+
+button {
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: all 0.25s ease;
+}
+
+#yes {
+  background: #ff2e63;
+  color: white;
+  padding: 20px 45px;
+}
+
+#no {
+  background: white;
+  position: absolute;
+  padding: 16px 34px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🖼️ Background -->
+<div class="bg" id="bg"></div>
+
+<div class="container">
+  <h2>Dilasha 🌸</h2>
+
+  <!-- 💬 Typing -->
+  <div id="typing"></div>
+
+  <!-- 💘 Buttons -->
+  <div class="buttons">
+    <button id="yes" onclick="yesClicked()">YES 💕</button>
+    <button id="no" onclick="noClicked()">NO 💔</button>
+  </div>
+</div>
+
+<!-- 🎵 Music -->
+<audio id="music" src="song.mp3" loop></audio>
+
+<!-- 🎉 Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+/* ------------------ BACKGROUND IMAGES ------------------ */
+const bgImages = [
+  "img1.jpg",
+  "img2.jpg",
+  "img3.jpg",
+  "img4.jpg"
+];
+
+let bgIndex = 0;
+const bg = document.getElementById("bg");
+bg.style.backgroundImage = `url(${bgImages[0]})`;
+
+setInterval(() => {
+  bgIndex = (bgIndex + 1) % bgImages.length;
+  bg.style.backgroundImage = `url(${bgImages[bgIndex]})`;
+}, 4000);
+
+/* ------------------ DATA ------------------ */
+const messages = [
+  "Dilasha… मन अलि नरम बनाऊ न 😌",
+  "NO थिच्दा पनि YES नै लेखिएको देखिन्छ 😆",
+  "५० पटक NO भए पनि म त यही छु 💕",
+  "तिमी नै कविता, तिमी नै Valentine 🌸",
+  "अब त YES नै नियति हो 😏",
+  "NO थाक्यो, YES जित्दैछ 😳",
+  "Dilasha, प्रेम हार्दैन 💖"
+];
+
+let noCount = 0;
+let yesScale = 1;
+let noScale = 1;
+let msgIndex = 0;
+let charIndex = 0;
+
+const typingEl = document.getElementById("typing");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const music = document.getElementById("music");
+
+/* ------------------ TYPING EFFECT ------------------ */
+function typeText() {
+  if (charIndex < messages[msgIndex].length) {
+    typingEl.innerHTML += messages[msgIndex].charAt(charIndex);
+    charIndex++;
+    setTimeout(typeText, 45);
+  }
+}
+typeText();
+
+/* ------------------ NO CLICK ------------------ */
+function noClicked() {
+  noCount++;
+
+  // 📳 vibration
+  if (navigator.vibrate) navigator.vibrate(100);
+
+  // 🎵 play music safely
+  music.play();
+
+  // NO shrinks faster
+  noScale -= 0.05;
+  if (noScale < 0.2) noScale = 0.2;
+  noBtn.style.transform = `scale(${noScale})`;
+
+  // random movement
+  noBtn.style.left = Math.random() * 85 + "%";
+  noBtn.style.top = Math.random() * 80 + "%";
+
+  // YES grows faster 💗
+  yesScale += 0.06;
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  // change message
+  msgIndex = (msgIndex + 1) % messages.length;
+  typingEl.innerHTML = "";
+  charIndex = 0;
+  typeText();
+
+  // FINAL TAKEOVER 😈
+  if (noCount === 50) {
+    noBtn.style.display = "none";
+
+    yesBtn.style.position = "absolute";
+    yesBtn.style.left = "5%";
+    yesBtn.style.top = "30%";
+    yesBtn.style.width = "90%";
+    yesBtn.style.height = "45%";
+    yesBtn.style.fontSize = "42px";
+    yesBtn.innerText = "YES 💖 I’m Yours";
+
+    typingEl.innerHTML = "अब त YES नै प्रेमको अन्तिम उत्तर हो 💕";
+  }
+}
+
+/* ------------------ YES CLICK ------------------ */
+function yesClicked() {
+  confetti({
+    particleCount: 250,
+    spread: 120,
+    origin: { y: 0.6 }
+  });
+
+  document.body.innerHTML = `
+    <h1 style="margin-top:40vh;text-align:center;color:#b3003b">
+      Dilasha 💕<br>
+      You chose love 🥹
+    </h1>
+    <p style="text-align:center">Happy Valentine’s Day 🌹</p>
+  `;
+}
+</script>
+
+</body>
+</html>
